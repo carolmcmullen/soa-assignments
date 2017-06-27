@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cooksys.dto.ProjectDto;
 import com.cooksys.dto.ProjectManagerDto;
 import com.cooksys.service.ProjectManagerService;
+import com.cooksys.service.ProjectService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -25,8 +27,9 @@ import io.swagger.annotations.ApiOperation;
 public class ProjectManagerController {
 
 	private ProjectManagerService projectManagerService;
+	private ProjectService projectService;
 
-	public ProjectManagerController(ProjectManagerService projectManagerService) {
+	public ProjectManagerController(ProjectManagerService projectManagerService, ProjectService projectService) {
 		this.projectManagerService = projectManagerService;
 	}
 	
@@ -47,6 +50,12 @@ public class ProjectManagerController {
 	@ApiOperation(value = "", nickname = "getProjectManagerById")
 	public ProjectManagerDto get(@PathVariable Long id) {
 		return projectManagerService.get(id);
+	}
+	
+	@GetMapping("{id}/project")
+	@ApiOperation(value = "", nickname = "getProjectsByProjectManagerId")
+	public List<ProjectDto> getProjectsByProjectManagerId(@PathVariable Long id) {
+		return projectService.getProjectByProjectManagerId(id);
 	}
 
 	@PostMapping
